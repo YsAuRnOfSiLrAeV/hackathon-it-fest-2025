@@ -35,6 +35,25 @@ export default function InterviewPage() {
   const quiz = useMemo(() => QUESTIONS.slice(0, 6), []);
   const total = quiz.length;
 
+  const scoreAttempt = useCallback((a: number[]): { scorePct: number; checklist: string[] } => {
+    let correct = 0;
+    const checklist: string[] = [];
+    for (let i = 0; i < total; i++) {
+      if (a[i] === quiz[i].correct) correct++;
+      else checklist.push(`Review: ${quiz[i].text}`);
+    }
+    return { scorePct: Math.round((correct / total) * 100), checklist };
+  }, [quiz, total]);
+
+  const saveHistory = useCallback((attempt: Attempt) => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      const list: Attempt[] = raw ? JSON.parse(raw) : [];
+      list.unshift(attempt);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list.slice(0, 10)));
+    } catch {}
+  }, []);
+
   const handleSubmit = useCallback(() => {
     const finishedAt = new Date().toISOString();
     const { scorePct, checklist } = scoreAttempt(answers);
@@ -48,7 +67,7 @@ export default function InterviewPage() {
     };
     saveHistory(attempt);
     setPhase("done");
-  }, [answers, durationMin, secondsLeft, total]);
+  }, [answers, durationMin, secondsLeft, total, scoreAttempt, saveHistory]);
 
   useEffect(() => {
     if (phase !== "running") return;
@@ -79,25 +98,6 @@ export default function InterviewPage() {
       b[qi] = choice;
       return b;
     });
-  }
-
-  function scoreAttempt(a: number[]): { scorePct: number; checklist: string[] } {
-    let correct = 0;
-    const checklist: string[] = [];
-    for (let i = 0; i < total; i++) {
-      if (a[i] === quiz[i].correct) correct++;
-      else checklist.push(`Review: ${quiz[i].text}`);
-    }
-    return { scorePct: Math.round((correct / total) * 100), checklist };
-  }
-
-  function saveHistory(attempt: Attempt) {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      const list: Attempt[] = raw ? JSON.parse(raw) : [];
-      list.unshift(attempt);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(list.slice(0, 10)));
-    } catch {}
   }
 
 

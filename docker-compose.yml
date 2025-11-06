@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:16
+    container_name: jobapp-db
+    ports: ["5000:5432"]
+    environment:
+      POSTGRES_DB: jobapp
+      POSTGRES_USER: jobapp
+      POSTGRES_PASSWORD: jobapp
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
+  

@@ -28,6 +28,7 @@ jobs:
         env:
           NEXT_TELEMETRY_DISABLED: '1'
           NEXT_PUBLIC_API_BASE: http://localhost:8081
+          TAILWIND_DISABLE_LIGHTNINGCSS: '1'
         run: npm run build
 
       - name: Lint

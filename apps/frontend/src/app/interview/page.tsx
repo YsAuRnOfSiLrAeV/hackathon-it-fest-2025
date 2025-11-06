@@ -71,7 +71,6 @@ export default function InterviewPage() {
 
   useEffect(() => {
     if (phase !== "running") return;
-    setSecondsLeft(durationMin * 60);
     const t = setInterval(() => {
       setSecondsLeft((s) => {
         if (s <= 1) {
@@ -89,6 +88,7 @@ export default function InterviewPage() {
     setIndex(0);
     setAnswers(Array(total).fill(-1));
     startedAtRef.current = new Date().toISOString();
+    setSecondsLeft(durationMin * 60);
     setPhase("running");
   }
 

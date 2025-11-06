@@ -15,3 +15,8 @@ pnpm-debug.log*
 **/.gradle/
 build/
 **/build/
+
+.vscode/
+**/.vscode/
+
+**/next-env.d.ts

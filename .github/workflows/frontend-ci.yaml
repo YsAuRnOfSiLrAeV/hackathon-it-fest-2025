@@ -29,6 +29,7 @@ jobs:
           NEXT_TELEMETRY_DISABLED: '1'
           NEXT_PUBLIC_API_BASE: http://localhost:8081
           TAILWIND_DISABLE_LIGHTNINGCSS: '1'
+          TAILWIND_DISABLE_OXIDE: '1'
           LIGHTNINGCSS_FORCE_WASM: '1'
         run: npm run build
 

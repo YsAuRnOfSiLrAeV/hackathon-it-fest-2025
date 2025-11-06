@@ -113,7 +113,15 @@ export default function CvPage() {
     doc.save(fileName);
   }
 
-  function renderTemplateAPdf(doc: any, d: CvData, skills: string[]) {
+  type PdfTextOptions = { align?: "left" | "center" | "right" };
+  type PdfDoc = {
+    setFont: (family: string, style?: string) => void;
+    setFontSize: (size: number) => void;
+    text: (text: string | string[], x: number, y: number, options?: PdfTextOptions) => void;
+    splitTextToSize: (text: string, size: number) => string[];
+  };
+
+  function renderTemplateAPdf(doc: PdfDoc, d: CvData, skills: string[]) {
     const left = 12;
     let y = 16;
     const line = (t: string, size = 14, bold = false) => {
@@ -145,7 +153,7 @@ export default function CvPage() {
     block("Education", d.education);
   }
 
-  function renderTemplateBPdf(doc: any, d: CvData, skills: string[]) {
+  function renderTemplateBPdf(doc: PdfDoc, d: CvData, skills: string[]) {
     const pageWidth = 210;
     const margin = 12;
     const contentWidth = pageWidth - margin * 2;

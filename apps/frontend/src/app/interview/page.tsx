@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { SectionWrapper, InterviewResults } from "@/components";
 import { interviewQuestions } from "@/constants";
 
@@ -35,6 +35,21 @@ export default function InterviewPage() {
   const quiz = useMemo(() => QUESTIONS.slice(0, 6), []);
   const total = quiz.length;
 
+  const handleSubmit = useCallback(() => {
+    const finishedAt = new Date().toISOString();
+    const { scorePct, checklist } = scoreAttempt(answers);
+    const attempt: Attempt = {
+      startedAt: startedAtRef.current,
+      finishedAt,
+      durationSec: durationMin * 60 - secondsLeft,
+      score: scorePct,
+      total,
+      checklist,
+    };
+    saveHistory(attempt);
+    setPhase("done");
+  }, [answers, durationMin, secondsLeft, total]);
+
   useEffect(() => {
     if (phase !== "running") return;
     setSecondsLeft(durationMin * 60);
@@ -49,7 +64,7 @@ export default function InterviewPage() {
       });
     }, 1000);
     return () => clearInterval(t);
-  }, [phase, durationMin]);
+  }, [phase, durationMin, handleSubmit]);
 
   function start() {
     setIndex(0);
@@ -85,20 +100,7 @@ export default function InterviewPage() {
     } catch {}
   }
 
-  function handleSubmit() {
-    const finishedAt = new Date().toISOString();
-    const { scorePct, checklist } = scoreAttempt(answers);
-    const attempt: Attempt = {
-      startedAt: startedAtRef.current,
-      finishedAt,
-      durationSec: durationMin * 60 - secondsLeft,
-      score: scorePct,
-      total,
-      checklist,
-    };
-    saveHistory(attempt);
-    setPhase("done");
-  }
+
 
   return (
     <SectionWrapper id="interview">

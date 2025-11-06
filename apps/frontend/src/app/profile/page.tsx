@@ -126,8 +126,9 @@ export default function ProfilePage() {
       setProfile(updated);
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
-    } catch (e: any) {
-      setError(e?.message || "Unexpected error while saving");
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : String(e);
+      setError(msg || "Unexpected error while saving");
     } finally {
       setSaving(false);
     }

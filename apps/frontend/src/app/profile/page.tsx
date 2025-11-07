@@ -142,6 +142,33 @@ export default function ProfilePage() {
     window.location.href = `${BACKEND}/logout`;
   };
 
+  const onDelete = async () => {
+    const ok = window.confirm("Delete all your data (profile and CV)? This cannot be undone.");
+    if (!ok) return;
+    try {
+      const res = await fetch(`${BACKEND}/api/account`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (res.status === 401) {
+        window.location.href = `${BACKEND}/oauth2/authorization/google`;
+        return;
+      }
+      if (!res.ok) throw new Error(`Delete failed: ${res.status}`);
+
+      try {
+        localStorage.removeItem("cv-draft-v1");
+        localStorage.removeItem("cv-current-v1");
+        localStorage.removeItem("interview-history-v1");
+      } catch {}
+
+      window.location.href = `${BACKEND}/logout`;
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : String(e);
+      setError(msg || "Unexpected error while deleting");
+    }
+  };
+
   return (
     <main className="mx-auto max-w-3xl px-4 py-8">
       <h1 className="text-2xl font-bold">Profile</h1>
@@ -201,8 +228,9 @@ export default function ProfilePage() {
               </div>
             </div>
             <div className="mt-5 flex items-center gap-3">
-              <button onClick={onSave} disabled={!hasChanges || saving} className="rounded-full bg-zinc-900 px-5 py-2 text-white hover:bg-zinc-800 disabled:opacity-50">{saving ? "Saving…" : "Save changes"}</button>
-              <button onClick={onLogout} className="rounded-full border border-zinc-900 px-5 py-2 text-zinc-900 hover:bg-zinc-900 hover:text-white">Logout</button>
+              <button onClick={onSave} disabled={!hasChanges || saving} className="rounded-full bg-zinc-900 px-5 py-2 text-white hover:bg-zinc-800 disabled:opacity-50 hover:cursor-pointer disabled:cursor-not-allowed disabled:hover:cursor-not-allowed">{saving ? "Saving…" : "Save changes"}</button>
+              <button onClick={onLogout} className="rounded-full border border-zinc-900 px-5 py-2 text-zinc-900 hover:bg-zinc-900 hover:text-white hover:cursor-pointer">Logout</button>
+              <button onClick={onDelete} className="ml-auto rounded-full bg-[#f85d5d] px-5 py-2 text-white hover:bg-red-700 hover:cursor-pointer">Delete all data</button>
               {saved && <span className="text-sm text-zinc-600">Saved</span>}
             </div>
           </div>
@@ -211,5 +239,3 @@ export default function ProfilePage() {
     </main>
   );
 }
-
-

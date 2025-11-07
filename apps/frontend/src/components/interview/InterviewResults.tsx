@@ -65,8 +65,8 @@ function InterviewResults({ total, answers, quiz, secondsUsed, onRestart }: Inte
         </div>
       </div>
       <div className="flex items-center gap-3">
-        <button onClick={onRestart} className="rounded-full border border-zinc-900 px-5 py-2 text-zinc-900 hover:bg-zinc-900 hover:text-white">Restart</button>
-        <button onClick={saveResult} className="rounded-full bg-zinc-900 px-5 py-2 text-white hover:bg-zinc-800">Save result (local)</button>
+        <button onClick={onRestart} className="rounded-full border border-zinc-900 px-5 py-2 text-zinc-900 hover:bg-zinc-900 hover:text-white hover:cursor-pointer">Restart</button>
+        <button onClick={saveResult} className="rounded-full bg-zinc-900 px-5 py-2 text-white hover:bg-zinc-800 hover:cursor-pointer">Save result</button>
         {saved && <span className="text-sm text-zinc-600">Saved</span>}
       </div>
     </section>

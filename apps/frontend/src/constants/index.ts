@@ -2,24 +2,24 @@ export { cards, interviewQuestions };
 
 const cards = [
     {
-      name: "CV Builder",
-      description: "Validated form with live preview in two templates and PDF export.",
-      skills: ["Sections: education, experience, skills", "Live preview", "Export to PDF"],
+        name: "CV Builder",
+        description: "Validated form with live preview in two templates and PDF export.",
+        skills: ["Sections: education, experience, skills", "Live preview", "Export to PDF"],
     },
     {
-      name: "Interview Simulator",
-      description: "Timed Q&A with a summary report and self-assessment.",
-      skills: ["5-8 questions", "Timer & score", "Progress saved"],
+        name: "CV AI Generator",
+        description: "Generate a CV with AI, using your profile data.",
+        skills: ["Takes your profile data", "Generates a CV for free", "Fills in the gaps"],
     },
     {
-      name: "Import & Export",
-      description: "Download your profile/results as JSON or PDF, import back later.",
-      skills: ["Profile JSON", "Interview report PDF", "One-click export"],
-    },
+        name: "Interview Simulator",
+        description: "Timed Q&A with a summary report and self-assessment.",
+        skills: ["6 questions", "Timer & score", "Progress saved"],
+      },
     {
-      name: "Privacy by Default",
-      description: "We only collect the data needed for the MVP. You can erase your data anytime.",
-      skills: ["Opt-in analytics", "Erase account", "No passwords stored"],
+        name: "Privacy by Default",
+        description: "We only collect only necessary data. You can erase your data anytime.",
+        skills: ["Opt-in analytics", "Erase account", "No passwords stored"],
     },
 ];
 

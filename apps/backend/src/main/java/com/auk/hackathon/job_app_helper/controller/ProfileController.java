@@ -2,6 +2,7 @@ package com.auk.hackathon.job_app_helper.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
@@ -53,6 +54,15 @@ public class ProfileController {
         user.setBio(normalize(dto.getBio()));
         AppUser saved = appUserRepository.save(user);
         return new ProfileDto(saved);
+    }
+
+    @DeleteMapping("/api/account")
+    public void deleteAccount(Authentication auth) {
+        Optional<AppUser> userOpt = userService.getCurrentUser(auth);
+        if (userOpt.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        appUserRepository.delete(userOpt.get());
     }
 
     private String normalize(String value) {

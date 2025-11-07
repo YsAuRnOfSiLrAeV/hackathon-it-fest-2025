@@ -21,18 +21,18 @@ public class CvDto {
 
   public CvDto(Cv cv) {
     this.id = cv.getId();
-    this.fullName = cv.getFullName();
-    this.email = cv.getEmail();
-    this.phone = cv.getPhone();
-    this.location = cv.getLocation();
-    this.website = cv.getWebsite();
-    this.github = cv.getGithub();
-    this.linkedin = cv.getLinkedin();
-    this.summary = cv.getSummary();
-    this.skills = cv.getSkills();
-    this.experience = cv.getExperience();
-    this.projects = cv.getProjects();
-    this.education = cv.getEducation();
+    this.fullName = cv.getFullName() != null ? cv.getFullName() : "";
+    this.email = cv.getEmail() != null ? cv.getEmail() : "";
+    this.phone = cv.getPhone() != null ? cv.getPhone() : "";
+    this.location = cv.getLocation() != null ? cv.getLocation() : "";
+    this.website = cv.getWebsite() != null ? cv.getWebsite() : "";
+    this.github = cv.getGithub() != null ? cv.getGithub() : "";
+    this.linkedin = cv.getLinkedin() != null ? cv.getLinkedin() : "";
+    this.summary = cv.getSummary() != null ? cv.getSummary() : "";
+    this.skills = cv.getSkills() != null ? cv.getSkills() : "";
+    this.experience = cv.getExperience() != null ? cv.getExperience() : "";
+    this.projects = cv.getProjects() != null ? cv.getProjects() : "";
+    this.education = cv.getEducation() != null ? cv.getEducation() : "";
   }
 
   public Long getId() { return id; }

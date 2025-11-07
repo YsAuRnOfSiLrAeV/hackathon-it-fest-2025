@@ -79,7 +79,21 @@ export default function CvPage() {
       }
       if (!res.ok) throw new Error(`Failed to load CV: ${res.status}`);
       const dto = await res.json();
-      setData({ ...EMPTY, ...dto });
+      const safe: CvData = {
+        fullName: dto.fullName ?? "",
+        email: dto.email ?? "",
+        phone: dto.phone ?? "",
+        location: dto.location ?? "",
+        website: dto.website ?? "",
+        github: dto.github ?? "",
+        linkedin: dto.linkedin ?? "",
+        summary: dto.summary ?? "",
+        skills: dto.skills ?? "",
+        experience: dto.experience ?? "",
+        projects: dto.projects ?? "",
+        education: dto.education ?? "",
+      };
+      setData({ ...EMPTY, ...safe });
     } catch {}
   }
 
@@ -97,7 +111,21 @@ export default function CvPage() {
       }
       if (!res.ok) throw new Error(`Failed to save CV: ${res.status}`);
       const dto = await res.json();
-      setData({ ...EMPTY, ...dto });
+      const safe: CvData = {
+        fullName: dto.fullName ?? "",
+        email: dto.email ?? "",
+        phone: dto.phone ?? "",
+        location: dto.location ?? "",
+        website: dto.website ?? "",
+        github: dto.github ?? "",
+        linkedin: dto.linkedin ?? "",
+        summary: dto.summary ?? "",
+        skills: dto.skills ?? "",
+        experience: dto.experience ?? "",
+        projects: dto.projects ?? "",
+        education: dto.education ?? "",
+      };
+      setData({ ...EMPTY, ...safe });
     } catch {}
   }
 

@@ -18,7 +18,7 @@ public class CustomOAuth2SuccessHandler implements AuthenticationSuccessHandler 
     private final String frontendBaseUrl;
 
     public CustomOAuth2SuccessHandler(UserService userService,
-                                    @Value("${FRONTEND_BASE_URL:http://localhost:3000}") String frontendBaseUrl) {
+                                    @Value("${FRONTEND_ORIGIN:http://localhost:3000}") String frontendBaseUrl) {
         this.userService = userService;
         this.frontendBaseUrl = frontendBaseUrl;
     }

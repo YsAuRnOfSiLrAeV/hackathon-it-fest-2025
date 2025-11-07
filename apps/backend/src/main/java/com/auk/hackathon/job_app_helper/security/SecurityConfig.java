@@ -8,7 +8,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -25,7 +25,8 @@ public class SecurityConfig {
   }
 
   @Bean
-  SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+  SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                          @Value("${FRONTEND_ORIGIN:http://localhost:3000}") String frontendOrigin) throws Exception {
     http
       .csrf(csrf -> csrf.disable())
       .cors(Customizer.withDefaults())
@@ -36,13 +37,13 @@ public class SecurityConfig {
       .exceptionHandling(e -> e
           .defaultAuthenticationEntryPointFor(
               new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
-              new AntPathRequestMatcher("/api/**")
+              new RegexRequestMatcher("/api/.*", null)
           )
       )
       .formLogin(form -> form.disable())
       .httpBasic(basic -> basic.disable())
       .oauth2Login(o -> o.successHandler(customOAuth2SuccessHandler))
-      .logout(l -> l.logoutSuccessUrl("http://localhost:3000/").permitAll());
+      .logout(l -> l.logoutSuccessUrl(frontendOrigin).permitAll());
     return http.build();
   }
 
